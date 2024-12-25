@@ -15,10 +15,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'pnpm'
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Cache Dependencies
         uses: actions/cache@v3
