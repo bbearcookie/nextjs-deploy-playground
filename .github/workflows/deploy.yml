@@ -35,6 +35,12 @@ jobs:
       - name: 프로젝트 빌드
         run: pnpm build
 
+      - name: Docker Build를 위한 파일 복사
+        run: |
+          cp -r .next/standalone docker-build/.next/standalone |
+          cp -r .next/static docker-build/.next/static |
+          cp -r public/* docker-build/public
+
       - name: Docker Hub 로그인
         uses: docker/login-action@v3
         with:
@@ -52,7 +58,7 @@ jobs:
 
           echo "Using image tag: $IMAGE_TAG"
 
-          docker build -t $REPO_NAME:$IMAGE_TAG .next/standalone/* .next/static/* public/*
+          docker build -t $REPO_NAME:$IMAGE_TAG docker-build
           docker tag $REPO_NAME:$IMAGE_TAG $REPO_NAME:latest # 버전 태그 및 Latest 태그를 추가
 
           docker push $REPO_NAME:$IMAGE_TAG
