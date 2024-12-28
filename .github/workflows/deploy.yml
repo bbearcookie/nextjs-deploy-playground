@@ -65,26 +65,33 @@ jobs:
         with:
           name: next-build-${{ github.sha }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          username: ${{ vars.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          mask-password: 'true'
-
-      - name: Build and Push Docker Image to Amazon ECR
+      - name: Build and Push Docker Image to Docker Hub
         env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
           IMAGE_TAG: ${{ steps.package-version.outputs.current-version }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$REPOSITORY:latest
+          # Docker Hub 리포지토리 이름 설정 (username/repository)
+          REPO_NAME="$DOCKER_HUB_USERNAME/my-nextjs"
+
+          # 태그가 비어있다면 latest로 설정
+          if [ -z "$IMAGE_TAG" ]; then
+            IMAGE_TAG="latest"
+          fi
+
+          echo "Using image tag: $IMAGE_TAG"
+
+          # Docker 빌드 (Context = current directory)
+          docker build -t $REPO_NAME:$IMAGE_TAG .
+
+          # Latest 태그도 붙일 경우
+          docker tag $REPO_NAME:$IMAGE_TAG $REPO_NAME:latest
+
+          # 푸시
+          docker push $REPO_NAME:$IMAGE_TAG
+          docker push $REPO_NAME:latest
