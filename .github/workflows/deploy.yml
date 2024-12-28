@@ -37,9 +37,9 @@ jobs:
 
       - name: Docker Build를 위한 파일 복사
         run: |
-          cp -r .next/standalone docker-build/.next/standalone |
-          cp -r .next/static docker-build/.next/static |
-          cp -r public/* docker-build/public
+          mkdir -p docker-build/.next/standalone && cp -r .next/standalone docker-build/.next/standalone |
+          mkdir -p docker-build/.next/static && cp -r .next/static docker-build/.next/static |
+          mkdir -p docker-build/public && cp -r public/* docker-build/public
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v3
