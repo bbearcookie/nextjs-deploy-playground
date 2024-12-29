@@ -15,6 +15,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@datadog/datadog-ci": "^2.46.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
