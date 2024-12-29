@@ -40,7 +40,8 @@ jobs:
           mkdir -p docker-build && cp Dockerfile docker-build/Dockerfile |
           mkdir -p docker-build/.next/standalone && cp -r .next/standalone docker-build/.next/standalone |
           mkdir -p docker-build/.next/static && cp -r .next/static docker-build/.next/static |
-          mkdir -p docker-build/public && cp -r public/* docker-build/public
+          mkdir -p docker-build/public && cp -r public docker-build/public
+          ls -al docker-build
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v3
