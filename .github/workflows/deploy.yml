@@ -64,7 +64,7 @@ jobs:
           host: ${{ vars.EC2_HOST }}
           username: ${{ vars.EC2_USERNAME }}
           port: ${{ vars.EC2_SSH_PORT }}
-          password: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             whoami
             ls -al
