@@ -40,6 +40,7 @@ jobs:
             echo "ENV_FILE=.env.staging" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "ENV_FILE=.env.dev" >> $GITHUB_ENV
+          fi
 
       - name: 프로젝트 빌드
         env:
