@@ -32,8 +32,25 @@ jobs:
       - name: 의존성 설치
         run: pnpm install
 
+      - name: .env 파일 선택
+        run: |
+          if [[ "${{ github.ref_name }}" == "prod" ]]; then
+            echo "ENV_FILE=.env.prod" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+            echo "ENV_FILE=.env.staging" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "ENV_FILE=.env.dev" >> $GITHUB_ENV
+          else
+            echo "ENV_FILE=.env" >> $GITHUB_ENV
+          fi
+
       - name: 프로젝트 빌드
-        run: pnpm build
+        env:
+          ENV_FILE: ${{ env.ENV_FILE }}
+        run: |
+          echo "사용할 .env 파일: $ENV_FILE"
+          cp $ENV_FILE .env
+          pnpm build
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v3

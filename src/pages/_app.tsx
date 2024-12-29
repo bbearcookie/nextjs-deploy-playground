@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Next.js Deploy Playground - ${packageJson.version}</title>
       </Head>
       <div>버전: {packageJson.version}</div>
+      <div>URL: {process.env.NEXT_PUBLIC_URL}</div>
       <Component {...pageProps} />
     </>
   );
