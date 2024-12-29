@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  build-nextjs:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: 레포지토리 가져오기
@@ -37,6 +37,7 @@ jobs:
 
       - name: Docker Build를 위한 파일 복사
         run: |
+          mkdir -p docker-build && cp Dockerfile docker-build/Dockerfile |
           mkdir -p docker-build/.next/standalone && cp -r .next/standalone docker-build/.next/standalone |
           mkdir -p docker-build/.next/static && cp -r .next/static docker-build/.next/static |
           mkdir -p docker-build/public && cp -r public/* docker-build/public

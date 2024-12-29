@@ -8,10 +8,11 @@ WORKDIR /usr/src/app
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+RUN ls -al
 
-COPY ./public ./public
-COPY ./.next/standalone ./
-COPY ./.next/static ./.next/static
+# COPY ./public ./public
+# COPY ./.next/standalone ./
+# COPY ./.next/static ./.next/static
 
 USER nextjs
 EXPOSE $PORT
