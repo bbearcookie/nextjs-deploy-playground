@@ -20,7 +20,7 @@ RUN ls -al .
 RUN npx datadog-ci sourcemaps upload /src \
     --service=${DATADOG_SERVICE} \
     --release-version=${DATADOG_VERSION} \
-    --minified-path-prefix=${DATADOG_PATH_PREFIX}
+    --minified-path-prefix=./
 
 USER nextjs
 EXPOSE $PORT
