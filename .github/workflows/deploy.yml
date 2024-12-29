@@ -35,24 +35,22 @@ jobs:
       - name: .env 파일 선택
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "ENV_FILE=.env.prod" >> $GITHUB_ENV
+            ENV_FILE=".env.prod"
           elif [[ "${{ github.ref_name }}" == "staging" ]]; then
-            echo "ENV_FILE=.env.staging" >> $GITHUB_ENV
+            ENV_FILE=".env.staging"
           elif [[ "${{ github.ref_name }}" == "dev" ]]; then
-            echo "ENV_FILE=.env.dev" >> $GITHUB_ENV
+            ENV_FILE=".env.dev"
           fi
 
-      - name: 프로젝트 빌드
-        env:
-          ENV_FILE: ${{ env.ENV_FILE }}
-        run: |
           if [ -n "$ENV_FILE" ]; then
             echo "사용할 .env 파일: $ENV_FILE"
             cp $ENV_FILE .env
           else
             echo "ENV_FILE이 지정되지 않았습니다. 기본 환경 설정을 사용합니다."
           fi
-          pnpm build
+
+      - name: 프로젝트 빌드
+        run: pnpm build
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v3
