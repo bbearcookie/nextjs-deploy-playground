@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20-alpine AS base
 WORKDIR /app
 
 ARG DATADOG_API_KEY
@@ -17,6 +17,7 @@ RUN pwd
 RUN ls -al .
 
 # datadog-ci로 소스맵 업로드
+RUN npm install -g @datadog/datadog-ci
 RUN npx datadog-ci sourcemaps upload /src \
     --service=${DATADOG_SERVICE} \
     --release-version=${DATADOG_VERSION} \
