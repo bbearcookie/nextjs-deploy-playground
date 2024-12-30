@@ -1,10 +1,10 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
+ARG VERSION
 ARG DATADOG_API_KEY
 ARG DATADOG_SITE
 ARG DATADOG_SERVICE
-ARG DATADOG_VERSION
 ARG DATADOG_PREFIX
 ENV PORT=3000
 
@@ -22,7 +22,7 @@ RUN ls -al .
 RUN npm install -g @datadog/datadog-ci
 RUN npx datadog-ci sourcemaps upload ./.next/static/chunks \
     --service=${DATADOG_SERVICE} \
-    --release-version=${DATADOG_VERSION} \
+    --release-version=${VERSION} \
     --minified-path-prefix=${DATADOG_PREFIX}
 
 # 빌드된 결과물에서 소스맵 제거

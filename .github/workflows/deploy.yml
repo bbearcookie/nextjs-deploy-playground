@@ -60,7 +60,7 @@ jobs:
 
       - name: Docker 이미지 빌드 및 푸시
         env:
-          REPO_NAME: ${{ vars.DOCKER_HUB_USERNAME }}/nextjs-deploy-playground
+          REPO_NAME: ${{ vars.DOCKER_HUB_REPO_NAME }}
           IMAGE_TAG: ${{ steps.package-version.outputs.current-version }}
         run: |
           if [ -z "$IMAGE_TAG" ]; then
@@ -70,11 +70,11 @@ jobs:
           echo "Using image tag: $IMAGE_TAG"
 
           docker build \
-            --build-arg DATADOG_API_KEY=92d6459319391a78767641a811ee3416 \
-            --build-arg DATADOG_SITE=ap1.datadoghq.com \
-            --build-arg DATADOG_VERSION=${{ steps.package-version.outputs.current-version }} \
-            --build-arg DATADOG_SERVICE=my-nextjs-playground \
-            --build-arg DATADOG_PREFIX=https://bearcookiestudy.shop/_next/static/chunks \
+            --build-arg VERSION=${{ steps.package-version.outputs.current-version }} \
+            --build-arg DATADOG_API_KEY=${{ secrets.DATADOG_API_KEY }} \
+            --build-arg DATADOG_SITE=${{ vars.DATADOG_SITE }} \
+            --build-arg DATADOG_SERVICE=${{ vars.DATADOG_SERVICE }} \
+            --build-arg DATADOG_PREFIX=${{ vars.DATADOG_PREFIX }} \
             -t $REPO_NAME:$IMAGE_TAG .
           docker tag $REPO_NAME:$IMAGE_TAG $REPO_NAME:latest # 버전 태그 및 Latest 태그를 추가
 
@@ -89,10 +89,10 @@ jobs:
           port: ${{ vars.EC2_SSH_PORT }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker pull ${{ vars.DOCKER_HUB_USERNAME }}/nextjs-deploy-playground:latest
-            sudo docker stop nextjs-deploy-playground || true
-            sudo docker rm nextjs-deploy-playground || true
-            sudo docker run -d -p 3000:3000 --name nextjs-deploy-playground ${{ vars.DOCKER_HUB_USERNAME }}/nextjs-deploy-playground:latest
+            sudo docker pull ${{ vars.DOCKER_HUB_REPO_NAME }}:latest
+            sudo docker stop ${{ vars.DOCKER_CONTAINER_NAME }} || true
+            sudo docker rm ${{ vars.DOCKER_CONTAINER_NAME }} || true
+            sudo docker run -d -p 3000:3000 --name ${{ vars.DOCKER_CONTAINER_NAME }} ${{ vars.DOCKER_HUB_REPO_NAME }}:latest
 
             # 현재 디스크 사용량 확인
             DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
