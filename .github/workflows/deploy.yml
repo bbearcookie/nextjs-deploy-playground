@@ -73,6 +73,7 @@ jobs:
             --build-arg DATADOG_API_KEY=${{ secrets.DATADOG_API_KEY }} \
             --build-arg DATADOG_VERSION=${{ steps.package-version.outputs.current-version }} \
             --build-arg DATADOG_SERVICE=my-nextjs-playground \
+            --build-arg DATADOG_PREFIX=https://bearcookiestudy.shop \
             -t $REPO_NAME:$IMAGE_TAG .
           docker tag $REPO_NAME:$IMAGE_TAG $REPO_NAME:latest # 버전 태그 및 Latest 태그를 추가
 

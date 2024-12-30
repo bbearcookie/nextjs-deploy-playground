@@ -4,6 +4,7 @@ WORKDIR /app
 ARG DATADOG_API_KEY
 ARG DATADOG_SERVICE
 ARG DATADOG_VERSION
+ARG DATADOG_PREFIX
 ENV PORT=3000
 
 RUN addgroup --system --gid 1001 nodejs
@@ -21,7 +22,7 @@ RUN npm install -g @datadog/datadog-ci
 RUN npx datadog-ci sourcemaps upload /src \
     --service=${DATADOG_SERVICE} \
     --release-version=${DATADOG_VERSION} \
-    --minified-path-prefix=./
+    --minified-path-prefix=${DATADOG_PREFIX}
 
 USER nextjs
 EXPOSE $PORT
