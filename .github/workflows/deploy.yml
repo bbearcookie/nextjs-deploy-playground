@@ -70,7 +70,7 @@ jobs:
           echo "Using image tag: $IMAGE_TAG"
 
           docker build \
-            --build-arg DATADOG_API_KEY=${{ secrets.DATADOG_API_KEY }} \
+            --build-arg DATADOG_API_KEY=92d6459319391a78767641a811ee3416 \
             --build-arg DATADOG_VERSION=${{ steps.package-version.outputs.current-version }} \
             --build-arg DATADOG_SERVICE=my-nextjs-playground \
             --build-arg DATADOG_PREFIX=/static \
