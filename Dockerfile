@@ -11,9 +11,9 @@ ENV PORT=3000
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY ./public ./public
+# COPY ./public ./public
 COPY ./.next/standalone ./
-COPY ./.next/static ./.next/static
+# COPY ./.next/static ./.next/static
 
 # datadog-ci로 소스맵 업로드
 RUN npm install -g @datadog/datadog-ci
