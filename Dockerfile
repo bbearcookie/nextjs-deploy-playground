@@ -10,9 +10,8 @@ ENV PORT=3000
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY ./public ./public
 COPY ./.next/standalone ./
-COPY ./.next/static ./.next/static
+COPY ./.next/static ./static
 RUN rm -rf .next
 
 RUN pwd
@@ -28,4 +27,4 @@ RUN npx datadog-ci sourcemaps upload ./ \
 USER nextjs
 EXPOSE $PORT
 
-ENTRYPOINT ["node", "server.js"]
+# ENTRYPOINT ["node", "server.js"]
