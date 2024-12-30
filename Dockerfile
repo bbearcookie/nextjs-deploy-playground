@@ -27,4 +27,4 @@ RUN npx datadog-ci sourcemaps upload ./ \
 USER nextjs
 EXPOSE $PORT
 
-# ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["node", "server.js"]
