@@ -25,6 +25,9 @@ RUN npx datadog-ci sourcemaps upload ./.next/static/chunks \
     --release-version=${DATADOG_VERSION} \
     --minified-path-prefix=${DATADOG_PREFIX}
 
+# 빌드된 결과물에서 소스맵 제거
+RUN find ./ -type f -name "*.map" -delete
+
 USER nextjs
 EXPOSE $PORT
 
