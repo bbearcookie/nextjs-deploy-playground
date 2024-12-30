@@ -20,7 +20,7 @@ RUN ls -al .
 
 # datadog-ci로 소스맵 업로드
 RUN npm install -g @datadog/datadog-ci
-RUN npx datadog-ci sourcemaps upload ./ \
+RUN npx datadog-ci sourcemaps upload ./.next/static/chunks \
     --service=${DATADOG_SERVICE} \
     --release-version=${DATADOG_VERSION} \
     --minified-path-prefix=${DATADOG_PREFIX}
