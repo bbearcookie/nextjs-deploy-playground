@@ -20,7 +20,7 @@ export default function Home() {
       <div>
         <button
           onClick={() => {
-            throw new Error('에러 버튼 클릭!');
+            throw new Error('에러 버튼 클릭!!!');
           }}
         >
           강제로 throw error
