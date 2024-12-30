@@ -13,7 +13,6 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY ./.next/standalone ./
 COPY ./.next/static ./static
-RUN rm -rf .next
 
 RUN pwd
 RUN ls -al .
