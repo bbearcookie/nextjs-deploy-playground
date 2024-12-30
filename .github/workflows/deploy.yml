@@ -93,3 +93,14 @@ jobs:
             sudo docker stop nextjs-deploy-playground || true
             sudo docker rm nextjs-deploy-playground || true
             sudo docker run -d -p 3000:3000 --name nextjs-deploy-playground ${{ vars.DOCKER_HUB_USERNAME }}/nextjs-deploy-playground:latest
+
+            # 현재 디스크 사용량 확인
+            DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
+
+            # 디스크 사용량이 80% 이상인 경우 오래된 이미지 삭제
+            if [ "$DISK_USAGE" -ge 80 ]; then
+              echo "Disk usage is high ($DISK_USAGE%). Cleaning up unused Docker images..."
+              sudo docker image prune -af
+            else
+              echo "Disk usage is under control ($DISK_USAGE%). Skipping image cleanup."
+            fi
