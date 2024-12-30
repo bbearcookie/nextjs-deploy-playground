@@ -15,6 +15,13 @@ COPY ./public ./public
 COPY ./.next/standalone ./
 COPY ./.next/static ./.next/static
 
+# datadog-ci로 소스맵 업로드
+RUN npm install -g @datadog/datadog-ci
+RUN npx datadog-ci sourcemaps upload ./ \
+    --service=${DATADOG_SERVICE} \
+    --release-version=${DATADOG_VERSION} \
+    --minified-path-prefix=${DATADOG_PREFIX}
+
 USER nextjs
 EXPOSE $PORT
 
