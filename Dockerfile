@@ -20,10 +20,10 @@ RUN ls -al .
 
 # datadog-ci로 소스맵 업로드
 RUN npm install -g @datadog/datadog-ci
-RUN npx datadog-ci sourcemaps upload ./.next/static/chunks \
+RUN npx datadog-ci sourcemaps upload ./.next/static \
     --service=${DATADOG_SERVICE} \
     --release-version=${VERSION} \
-    --minified-path-prefix=${DATADOG_PREFIX}
+    --minified-path-prefix=${DATADOG_PREFIX}/_next/static
 
 # 빌드된 결과물에서 소스맵 제거
 RUN find ./ -type f -name "*.map" -delete
