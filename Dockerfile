@@ -12,8 +12,8 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY ./public ./public
-COPY ./.next/standalone ./
-COPY ./.next/static ./.next/static
+COPY --chown=nextjs:nodejs ./.next/standalone ./
+COPY --chown=nextjs:nodejs ./.next/static ./.next/static
 
 RUN pwd
 RUN ls -al .
