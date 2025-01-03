@@ -67,18 +67,20 @@ jobs:
             IMAGE_TAG="latest" # 태그가 비어있다면 latest로 설정
           fi
 
-          echo "Using image tag: $IMAGE_TAG"
+          tag=0.0.0.test.1
 
-          docker build -t $REPO_NAME:$IMAGE_TAG \
+          echo "Using image tag: $tag"
+
+          docker build -t $REPO_NAME:$tag \
             --build-arg VERSION=${{ steps.package-version.outputs.current-version }} \
             --build-arg DATADOG_API_KEY=${{ secrets.DATADOG_API_KEY }} \
             --build-arg DATADOG_SITE=${{ vars.DATADOG_SITE }} \
             --build-arg DATADOG_SERVICE=${{ vars.DATADOG_SERVICE }} \
             --build-arg DATADOG_PREFIX=${{ vars.DATADOG_PREFIX }} \
             -f  Dockerfile-test .
-          docker tag $REPO_NAME:$IMAGE_TAG $REPO_NAME:latest # 버전 태그 및 Latest 태그를 추가
+          docker tag $REPO_NAME:$tag $REPO_NAME:latest # 버전 태그 및 Latest 태그를 추가
 
-          docker push $REPO_NAME:$IMAGE_TAG
+          docker push $REPO_NAME:$tag
           docker push $REPO_NAME:latest
 
       - name: AWS EC2에 SSH 연결 및 Docker 컨테이너 업데이트 후 재시작
