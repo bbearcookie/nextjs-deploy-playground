@@ -19,6 +19,9 @@ jobs:
       - name: Corepack 활성화
         run: corepack enable
 
+      - name: Corepack 관련 이슈 임시 해결을 위한 설치 (https://github.com/pnpm/pnpm/issues/9029)
+        run: npm i -g corepack@latest
+
       - name: package.json에서 버전 추출
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
